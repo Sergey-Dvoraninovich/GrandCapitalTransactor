@@ -19,7 +19,7 @@ public class CacheConfiguration {
                 .entryTtl(Duration.ofMinutes(10));
 
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
-        cacheConfigurations.put("users", defaultConfig.entryTtl(Duration.ofSeconds(5)));
+        cacheConfigurations.put("users", defaultConfig.entryTtl(Duration.ofMinutes(5)));
 
         return RedisCacheManager.builder(redisConnectionFactory)
                 .cacheDefaults(defaultConfig)
