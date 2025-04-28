@@ -74,6 +74,7 @@ class UserControllerTest {
 
         String token = jwtService.generateToken(user);
 
+        // new user email
         mockMvc.perform(put("/users/" + userId + "/email")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .header("Authorization", "Bearer " + token)
@@ -81,6 +82,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
 
+        // plural user emails
         mockMvc.perform(put("/users/" + userId + "/email")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .header("Authorization", "Bearer " + token)
@@ -88,6 +90,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
 
+        // incorrect user email
         mockMvc.perform(put("/users/" + userId + "/email")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .header("Authorization", "Bearer " + token)
@@ -95,6 +98,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
+        // user email already exists
         mockMvc.perform(put("/users/" + userId + "/email")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .header("Authorization", "Bearer " + token)
@@ -102,6 +106,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
 
+        // update user email
         mockMvc.perform(patch("/users/" + userId + "/email")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .header("Authorization", "Bearer " + token)
@@ -109,6 +114,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
+        // delete user email
         mockMvc.perform(delete("/users/" + userId + "/email")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .header("Authorization", "Bearer " + token)
@@ -116,6 +122,7 @@ class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
+        // new email instead of the deleted one
         mockMvc.perform(put("/users/" + userId + "/email")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .header("Authorization", "Bearer " + token)
@@ -129,6 +136,7 @@ class UserControllerTest {
         otherUser.setPassword("$2a$10$OvFROh3eYlAxtxL6NO800ORcmwYlWCBHCGv/yhHTslBuJEofxWFCu");
         usersRepository.save(otherUser);
 
+        // User with the wrong id
         Long otherUserId = otherUser.getId();
         mockMvc.perform(put("/users/" + otherUserId + "/email")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
@@ -173,6 +181,7 @@ class UserControllerTest {
         phoneData2.setPhone("+375299970222");
         phoneDataRepository.save(phoneData2);
 
+        // search by email
         MvcResult result = mockMvc.perform(get("/users?email=ingrid.svendsdatter@gmail.com")
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .with(SecurityMockMvcRequestPostProcessors.jwt()))
@@ -184,7 +193,7 @@ class UserControllerTest {
                 .get("content").get(0).get("name").asText();
         Assertions.assertEquals("Ingrid Svendsdatter", name);
 
-
+        // search by phone
         result = mockMvc.perform(get("/users?phone=+375299970111")
                         .with(SecurityMockMvcRequestPostProcessors.csrf())
                         .with(SecurityMockMvcRequestPostProcessors.jwt()))
