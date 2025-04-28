@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.slf4j.Logger;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -23,6 +24,7 @@ public class AccountAutoIncreaser {
     }
 
     @Scheduled(fixedRate = 30000)
+    @Transactional
     public void increaseBalance() {
         List<Account> accounts = accountRepository.findAccountsWithBalanceLessThanLimit();
         for (Account account : accounts) {
