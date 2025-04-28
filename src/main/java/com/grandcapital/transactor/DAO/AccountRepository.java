@@ -12,7 +12,11 @@ import java.util.List;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @QueryHints({@QueryHint(name = "jakarta.persistence.lock.timeout", value = "5000")})
+    @QueryHints(@QueryHint(name = "jakarta.persistence.lock.timeout", value = "5000"))
     @Query("SELECT a FROM Account a WHERE a.balance < a.autoIncreaseLimit")
     List<Account> findAccountsWithBalanceLessThanLimit();
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints(@QueryHint(name = "jakarta.persistence.lock.timeout", value = "5000"))
+    Account findByUserId(Long userId);
 }

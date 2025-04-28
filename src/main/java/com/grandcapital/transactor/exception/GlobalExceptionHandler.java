@@ -44,10 +44,4 @@ public class GlobalExceptionHandler {
         logger.error(ex.getMessage(), ex);
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
-
-    @ExceptionHandler(MoneyTransferFailedException.class)
-    public ResponseEntity<Object> handleMoneyTransferFailedException(MoneyTransferFailedException ex, HttpServletRequest request) {
-        logger.error(ex.getMessage(), ex);
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 }

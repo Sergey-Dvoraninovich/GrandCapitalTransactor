@@ -1,5 +1,6 @@
 package com.grandcapital.transactor.service;
 
+import com.grandcapital.transactor.DAO.AccountRepository;
 import com.grandcapital.transactor.DAO.UsersRepository;
 import com.grandcapital.transactor.DAO.entity.Account;
 import com.grandcapital.transactor.DAO.entity.User;
@@ -25,6 +26,9 @@ class MoneyTransferServiceTest {
     @Mock
     private UsersRepository usersRepository;
 
+    @Mock
+    private AccountRepository accountRepository;
+
     @InjectMocks
     private MoneyTransferService moneyTransferService;
 
@@ -48,7 +52,8 @@ class MoneyTransferServiceTest {
 
         when(usersRepository.findById(userId)).thenReturn(Optional.of(user));
         when(usersRepository.findById(targetUserId)).thenReturn(Optional.of(targetUser));
-
+        when(accountRepository.findByUserId(userId)).thenReturn(userAccount);
+        when(accountRepository.findByUserId(targetUserId)).thenReturn(targetAccount);
 
         moneyTransferService.transfer(userId, targetUserId, transferAmount);
 
