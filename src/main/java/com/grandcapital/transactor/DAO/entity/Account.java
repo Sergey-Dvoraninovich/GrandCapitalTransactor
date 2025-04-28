@@ -21,9 +21,6 @@ public class Account {
     @Column(name = "id")
     private Long id;
 
-    @Version
-    private Long version;
-
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
